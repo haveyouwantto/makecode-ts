@@ -14,15 +14,15 @@ let died2 = false
 let z1 = 0
 let y1 = 0
 let x1 = 0
-let palette: number[] = []
 let list: number[] = []
+let palette: number[] = []
 let y = 0
 let x = 0
 let precision = 0
 let scale = 0
 let posz = 0
-let pos: Position = null
 let temppos: Position = null
+let pos: Position = null
 let posy = 0
 let posx = 0
 let data = 0
@@ -55,6 +55,15 @@ player.onChat(".dome", function (t) {
         ShapeOperation.Hollow
     )
 })
+player.onChat(".qiulin", function (r, l) {
+    if (r == 0 || l == 0) {
+        player.tell(mobs.target(TargetSelectorKind.LocalPlayer), "§c用法： .qiulin <半径> <高度>")
+    }
+    x = player.position().getValue(Axis.X)
+    y = player.position().getValue(Axis.Y)
+    z = player.position().getValue(Axis.Z)
+    custom.qiuling(x, y, z, r, l)
+})
 player.onChat(".cindercone", function (width, height) {
     for (let index = 0; index <= height; index++) {
         blocks.fill(
@@ -72,12 +81,26 @@ player.onChat(".attack", function () {
             return
         }
 
-        for (let i = 1; i < 6; i++) {
+        for (let j = 1; j < 6; j++) {
             agent.teleportToPlayer()
-            agent.attack(directions[i])
+            agent.attack(directions[j])
         }
 
     })
+})
+player.onChat(".killaura", function (radius) {
+    if (radius == 0) {
+        player.tell(mobs.target(TargetSelectorKind.LocalPlayer), "§c用法： .killaura <半径>")
+    } else {
+        loops.forever(function () {
+            if (stop == 1) {
+                stop = 0
+                return
+            }
+
+            player.execute("kill @a[name!=" + player.name() + ",r=" + radius + "]")
+        })
+    }
 })
 player.onChat(".stop", function () {
     stop = 1
@@ -185,16 +208,16 @@ player.onChat(".set", function (t) {
             break
     }
 })
-let z = 0
-let a = 0
-let b = 0
-let rand = 0
-let died: boolean = false
-let p2: Position = null
-let p1: Position = null
-let t = 0
-list = []
 let stop = 0
+let t = 0
+let p1: Position = null
+let p2: Position = null
+let died: boolean = false
+let rand = 0
+let b = 0
+let a = 0
+let z = 0
+list = []
 let directions = [SixDirection.Forward, SixDirection.Back, SixDirection.Left, SixDirection.Right, SixDirection.Up]
 died2 = false
 sizex = 0

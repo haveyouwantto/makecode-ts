@@ -16,6 +16,8 @@ enum MyEnum {
  */
 //% weight=100 color=#0fbc11 icon=""
 namespace custom {
+    let PI = 3.141592653589793
+
     /**
      * 生成mandelbrot图像
      * @param x Re
@@ -140,4 +142,42 @@ namespace custom {
         }
         return 0;
     }
+    /**
+     * 生成丘陵
+     * @param x X
+     * @param y Y
+     * @param z Z
+     * @param r 半径
+     * @param l 高
+     */
+    //% block
+    export function qiuling(x: number, y: number, z: number, r: number, l: number) {
+        y--
+        let pi = PI * 0.5
+        l = l * 0.7
+        let a = 1.4
+        let b = 4
+        let c = 7
+        let d = Math.random() * 30 + 20
+        let a1 = Math.random() * 300000
+        let a2 = Math.random() * 50000000
+        let a3 = Math.random() * 8000
+        for (let m = -r; m < r; m++) {
+            for (let n = -r; n < r; n++) {
+                let ls = (Math.cos(pi * m / r) * Math.cos(pi * n / r)) * l - (Math.sin(pi * m * a / r + b) * Math.cos(pi * n * a / r + c)) * l * 0.25 + (Math.cos(pi * m * a * 2 / r + b * d) + Math.sin(pi * n * a * 2 / r + c * d)) * l * 0.2 - (Math.sin(pi * m * a * 3 / r + b * d * 2) * Math.sin(pi * n * a * 3 / r + c * d * 2)) * l * 0.15
+                if (ls > 0) setlongblock(x + m, y, z + n, ls)
+            }
+        }
+    }
+    function setlongblock(x: number, y: number, z: number, l: number) {
+        for (let i = 0; i <= l; i++) {
+            if (i > 3) settile(x, y + l - i, z, 1, 0)
+            else if (i > 0) settile(x, y + l - i, z, 3, 0)
+            else if (i == 0) settile(x, y + l, z, 2, 0)
+        }
+    }
+    function settile(x: number, y: number, z: number, i: number, b: number) {
+        blocks.place(blocks.blockWithData(i, b), positions.createWorld(x, y, z))
+    }
+
 }
