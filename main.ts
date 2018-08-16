@@ -26,6 +26,31 @@ let pos: Position = null
 let posy = 0
 let posx = 0
 let data = 0
+let stop = 0
+let t = 0
+let p1: Position = null
+let p2: Position = null
+let died: boolean = false
+let rand = 0
+let b = 0
+let a = 0
+let z = 0
+list = []
+let directions = [SixDirection.Forward, SixDirection.Back, SixDirection.Left, SixDirection.Right, SixDirection.Up]
+died2 = false
+sizex = 0
+sizey = 0
+maxiter = 0
+xm = 0
+ym = 0
+magn = 0
+xa = 0
+ya = 0
+c = 0
+I = 0
+xtemp = 0
+monsteroverworld = [mobs.monster(MonsterMob.Zombie), mobs.monster(MonsterMob.Creeper)]
+
 player.onChat(".randpaint", function (t) {
     posx = player.position().getValue(Axis.X)
     posy = player.position().getValue(Axis.Y)
@@ -208,27 +233,3 @@ player.onChat(".set", function (t) {
             break
     }
 })
-let stop = 0
-let t = 0
-let p1: Position = null
-let p2: Position = null
-let died: boolean = false
-let rand = 0
-let b = 0
-let a = 0
-let z = 0
-list = []
-let directions = [SixDirection.Forward, SixDirection.Back, SixDirection.Left, SixDirection.Right, SixDirection.Up]
-died2 = false
-sizex = 0
-sizey = 0
-maxiter = 0
-xm = 0
-ym = 0
-magn = 0
-xa = 0
-ya = 0
-c = 0
-I = 0
-xtemp = 0
-monsteroverworld = [mobs.monster(MonsterMob.Zombie), mobs.monster(MonsterMob.Creeper)]
