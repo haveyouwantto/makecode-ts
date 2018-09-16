@@ -14,7 +14,7 @@ enum MyEnum {
 /**
  * 自定义图形块
  */
-//% weight=100 color=#0fbc11 icon=""
+//% weight=100 color=#00cc00 icon="" block="扩展方法"
 namespace custom {
     let PI = 3.141592653589793
 
@@ -26,7 +26,7 @@ namespace custom {
      */
     //% block
     export function mandelbrot(xm: number, ym: number, magn: number): void {
-        palette = [blocks.block(Block.RedConcrete), blocks.block(Block.RedTerracotta), blocks.block(Block.OrangeTerracotta), blocks.block(Block.OrangeConcrete), blocks.block(Block.YellowTerracotta), blocks.block(Block.YellowConcrete), blocks.block(Block.LimeTerracotta), blocks.block(Block.LimeConcrete), blocks.block(Block.GreenTerracotta), blocks.block(Block.GreenConcrete), blocks.block(Block.CyanTerracotta), blocks.block(Block.LightBlueTerracotta), blocks.block(Block.LightBlueConcrete), blocks.block(Block.CyanConcrete), blocks.block(Block.BlueConcrete), blocks.block(Block.BlueTerracotta), blocks.block(Block.PurpleTerracotta), blocks.block(Block.PurpleConcrete), blocks.block(Block.MagentaTerracotta), blocks.block(Block.PinkTerracotta), blocks.block(Block.PinkConcrete), blocks.block(Block.PinkConcrete), blocks.block(Block.WhiteConcrete), blocks.block(Block.WhiteTerracotta), blocks.block(Block.LightGrayConcrete), blocks.block(Block.LightGrayTerracotta), blocks.block(Block.GrayConcrete), blocks.block(Block.GrayTerracotta), blocks.block(Block.BlackTerracotta)]
+        palette = [blocks.block(Block.RedConcrete), blocks.block(Block.RedTerracotta), blocks.block(Block.OrangeTerracotta), blocks.block(Block.OrangeConcrete), blocks.block(Block.YellowTerracotta), blocks.block(Block.YellowConcrete), blocks.block(Block.LimeTerracotta), blocks.block(Block.LimeConcrete), blocks.block(Block.GreenTerracotta), blocks.block(Block.GreenConcrete), blocks.block(Block.CyanTerracotta), blocks.block(Block.LightBlueTerracotta), blocks.block(Block.LightBlueConcrete), blocks.block(Block.CyanConcrete), blocks.block(Block.BlueConcrete), blocks.block(Block.BlueTerracotta), blocks.block(Block.PurpleTerracotta), blocks.block(Block.PurpleConcrete), blocks.block(Block.MagentaConcrete), blocks.block(Block.MagentaTerracotta), blocks.block(Block.PinkTerracotta), blocks.block(Block.PinkConcrete), blocks.block(Block.WhiteConcrete), blocks.block(Block.WhiteTerracotta), blocks.block(Block.LightGrayConcrete), blocks.block(Block.GrayConcrete), blocks.block(Block.LightGrayTerracotta), blocks.block(Block.BrownConcrete), blocks.block(Block.BrownTerracotta), blocks.block(Block.GrayTerracotta), blocks.block(Block.BlackTerracotta)]
         sizex = 16
         sizey = 16
         maxiter = 1000
@@ -46,7 +46,7 @@ namespace custom {
                 I = I + 1
             }
             if (I != maxiter) {
-                blocks.place(palette[I % 29], positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
+                blocks.place(palette[I % 31], positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
             } else {
                 blocks.place(blocks.block(Block.BlackConcrete), positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
             }
@@ -69,7 +69,7 @@ namespace custom {
      */
     //% block
     export function mandelbrot3d(xm: number, ym: number, magn: number): void {
-        palette = [blocks.block(Block.RedConcrete), blocks.block(Block.RedTerracotta), blocks.block(Block.OrangeTerracotta), blocks.block(Block.OrangeConcrete), blocks.block(Block.YellowTerracotta), blocks.block(Block.YellowConcrete), blocks.block(Block.LimeTerracotta), blocks.block(Block.LimeConcrete), blocks.block(Block.GreenTerracotta), blocks.block(Block.GreenConcrete), blocks.block(Block.CyanTerracotta), blocks.block(Block.LightBlueTerracotta), blocks.block(Block.LightBlueConcrete), blocks.block(Block.CyanConcrete), blocks.block(Block.BlueConcrete), blocks.block(Block.BlueTerracotta), blocks.block(Block.PurpleTerracotta), blocks.block(Block.PurpleConcrete), blocks.block(Block.MagentaTerracotta), blocks.block(Block.PinkTerracotta), blocks.block(Block.PinkConcrete), blocks.block(Block.PinkConcrete), blocks.block(Block.WhiteConcrete), blocks.block(Block.WhiteTerracotta), blocks.block(Block.LightGrayConcrete), blocks.block(Block.LightGrayTerracotta), blocks.block(Block.GrayConcrete), blocks.block(Block.GrayTerracotta), blocks.block(Block.BlackTerracotta)]
+        palette = [blocks.block(Block.RedConcrete), blocks.block(Block.RedTerracotta), blocks.block(Block.OrangeTerracotta), blocks.block(Block.OrangeConcrete), blocks.block(Block.YellowTerracotta), blocks.block(Block.YellowConcrete), blocks.block(Block.LimeTerracotta), blocks.block(Block.LimeConcrete), blocks.block(Block.GreenTerracotta), blocks.block(Block.GreenConcrete), blocks.block(Block.CyanTerracotta), blocks.block(Block.LightBlueTerracotta), blocks.block(Block.LightBlueConcrete), blocks.block(Block.CyanConcrete), blocks.block(Block.BlueConcrete), blocks.block(Block.BlueTerracotta), blocks.block(Block.PurpleTerracotta), blocks.block(Block.PurpleConcrete), blocks.block(Block.MagentaConcrete), blocks.block(Block.MagentaTerracotta), blocks.block(Block.PinkTerracotta), blocks.block(Block.PinkConcrete), blocks.block(Block.WhiteConcrete), blocks.block(Block.WhiteTerracotta), blocks.block(Block.LightGrayConcrete), blocks.block(Block.GrayConcrete), blocks.block(Block.LightGrayTerracotta), blocks.block(Block.BrownConcrete), blocks.block(Block.BrownTerracotta), blocks.block(Block.GrayTerracotta), blocks.block(Block.BlackTerracotta)]
         sizex = 16
         sizey = 16
         maxiter = 1000
@@ -90,9 +90,9 @@ namespace custom {
             }
             if (I != maxiter) {
                 if (I + posy > 255) {
-                    blocks.fill(palette[I % 29], positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, 255, posz + 1 + (ya + 2 / magn - ym) * sizey * magn), positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
+                    blocks.fill(palette[I % 31], positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, 255, posz + 1 + (ya + 2 / magn - ym) * sizey * magn), positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
                 } else {
-                    blocks.fill(palette[I % 29], positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy + I, posz + 1 + (ya + 2 / magn - ym) * sizey * magn), positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
+                    blocks.fill(palette[I % 31], positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy + I, posz + 1 + (ya + 2 / magn - ym) * sizey * magn), positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
                 }
             } else {
                 blocks.place(blocks.block(Block.BlackConcrete), positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
@@ -168,6 +168,35 @@ namespace custom {
                 if (ls > 0) setlongblock(x + m, y, z + n, ls)
             }
         }
+    }
+    /**
+     * 获取玩家的X坐标
+     */
+    //% block
+    export function getPlayerX(): number {
+        return player.position().getValue(Axis.X)
+    }
+    /**
+     * 获取玩家的Y坐标
+     */
+    //% block
+    export function getPlayerY(): number {
+        return player.position().getValue(Axis.Y)
+    }
+    /**
+     * 获取玩家的Z坐标
+     */
+    //% block
+    export function getPlayerZ(): number {
+        return player.position().getValue(Axis.Z)
+    }
+    /**
+     * 在指定坐标爆炸
+     */
+    //% block
+    export function explode(x: number, y: number, z: number): void {
+        player.execute("summon ender_crystal "+x+" "+y+" "+z)
+        mobs.spawn(mobs.projectile(ProjectileMob.LightningBolt), positions.createWorld(x,y,z))
     }
     function setlongblock(x: number, y: number, z: number, l: number) {
         for (let i = 0; i <= l; i++) {

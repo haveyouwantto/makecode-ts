@@ -1,4 +1,8 @@
-let monsteroverworld: number[] = []
+/*
+HYWT's Machine
+Microsoft MakeCode JavaScript
+*/
+let monsteroverworld = [mobs.monster(MonsterMob.Zombie), mobs.monster(MonsterMob.Creeper)]
 let xtemp = 0
 let I = 0
 let c = 0
@@ -26,6 +30,7 @@ let pos: Position = null
 let posy = 0
 let posx = 0
 let data = 0
+let mathdiff = 1
 let stop = 0
 let t = 0
 let p1: Position = null
@@ -35,22 +40,163 @@ let rand = 0
 let b = 0
 let a = 0
 let z = 0
-list = []
+let mathe = false
+let md = 0
+let ma1 = 0
+let ma2 = 0
+let mode = ""
 let directions = [SixDirection.Forward, SixDirection.Back, SixDirection.Left, SixDirection.Right, SixDirection.Up]
-died2 = false
-sizex = 0
-sizey = 0
-maxiter = 0
-xm = 0
-ym = 0
-magn = 0
-xa = 0
-ya = 0
-c = 0
-I = 0
-xtemp = 0
-monsteroverworld = [mobs.monster(MonsterMob.Zombie), mobs.monster(MonsterMob.Creeper)]
-
+let mathdiffs = ["简单", "中等", "困难", "宇宙超级霹雳无敌难度模式"]
+function mathright(exp: number) {
+    if (mathdiff == 4) {
+        exp = exp * exp
+        player.execute("xp " + exp)
+        player.say("§a正确答案！ §l§6经验+" + exp)
+    } else {
+        player.execute("xp " + exp)
+        player.say("§a正确答案！ §l§6经验+" + exp)
+    }
+}
+function mathwrong(ma1: number, ma2: number, mode: string) {
+    let ans = 0
+    switch (mode) {
+        case "+":
+            ans = ma1 + ma2
+            break
+        case "-":
+            ans = ma1 - ma2
+            break
+        case "×":
+            ans = ma1 * ma2
+            break
+        case "÷":
+            ans = parseInt(ma1 / ma2 + "")
+    }
+    player.say("§c错误答案！ 正确答案为§6§l" + ans)
+}
+player.onChat(".mathdiff", function (diff: number) {
+    if (diff < 1) {
+        player.say("§c你输入的数字(" + diff + ")太小了，它至少要为1")
+    }
+    else if (diff > 4) {
+        player.say("§c你输入的数字(" + diff + ")太大了，它最大只能为4")
+    } else {
+        mathdiff = diff
+        player.say("§d题目难度已设置为" + mathdiffs[diff - 1])
+    }
+})
+player.onChat(".math", function (ans: number) {
+    if (mathe == false) {
+        mathe = true
+        switch (mathdiff) {
+            case 1:
+                md = Math.randomRange(0, 1)
+                if (md == 1) {
+                    ma1 = Math.randomRange(0, 20)
+                    ma2 = Math.randomRange(0, 10)
+                    mode = "-"
+                } else {
+                    ma1 = Math.randomRange(0, 20)
+                    ma2 = Math.randomRange(0, 20)
+                    mode = "+"
+                }
+                break
+            case 2:
+                md = Math.randomRange(0, 2)
+                if (md == 1) {
+                    ma1 = Math.randomRange(0, 20) * Math.randomRange(0, 16)
+                    ma2 = Math.randomRange(0, 10) * Math.randomRange(0, 16)
+                    mode = "-"
+                } else if (md == 2) {
+                    ma1 = Math.randomRange(0, 20)
+                    ma2 = Math.randomRange(0, 20)
+                    mode = "×"
+                } else {
+                    ma1 = Math.randomRange(0, 20) * Math.randomRange(0, 16)
+                    ma2 = Math.randomRange(0, 20) * Math.randomRange(0, 16)
+                    mode = "+"
+                }
+                break
+            case 3:
+                md = Math.randomRange(0, 3)
+                if (md == 1) {
+                    ma1 = Math.randomRange(0, 500)
+                    ma2 = Math.randomRange(0, 200)
+                    mode = "-"
+                } else if (md == 2) {
+                    ma1 = Math.randomRange(0, 50)
+                    ma2 = Math.randomRange(0, 50)
+                    mode = "×"
+                }
+                else if (md == 3) {
+                    ma1 = Math.randomRange(0, 200)
+                    ma2 = Math.randomRange(0, 20)
+                    mode = "÷"
+                    player.say("§d保留整数即可")
+                } else {
+                    ma1 = Math.randomRange(0, 500)
+                    ma2 = Math.randomRange(0, 500)
+                    mode = "+"
+                }
+                break
+            case 4:
+                md = Math.randomRange(0, 3)
+                if (md == 1) {
+                    ma1 = Math.randomRange(0, 2147483647)
+                    ma2 = Math.randomRange(0, 2147483647)
+                    mode = "-"
+                } else if (md == 2) {
+                    ma1 = Math.randomRange(0, 46340)
+                    ma2 = Math.randomRange(0, 46340)
+                    mode = "×"
+                }
+                else if (md == 3) {
+                    ma1 = Math.randomRange(0, 2147483647)
+                    ma2 = Math.randomRange(0, 46340)
+                    mode = "÷"
+                    player.say("§d保留整数即可")
+                } else {
+                    ma1 = Math.randomRange(0, 2147483647)
+                    ma2 = Math.randomRange(0, 2147483647)
+                    mode = "+"
+                }
+                break
+        }
+        player.say("§d" + ma1 + mode + ma2 + "=?")
+    } else {
+        mathe = false
+        switch (mode) {
+            case "+":
+                if (ma1 + ma2 == ans) {
+                    mathright(mathdiff * 2)
+                } else {
+                    mathwrong(ma1, ma2, "+")
+                }
+                break
+            case "-":
+                if (ma1 - ma2 == ans) {
+                    mathright(mathdiff * 3)
+                } else {
+                    mathwrong(ma1, ma2, "-")
+                }
+                break
+            case "×":
+                if (ma1 * ma2 == ans) {
+                    mathright(mathdiff * 4)
+                } else {
+                    mathwrong(ma1, ma2, "×")
+                }
+                break
+            case "÷":
+                if (parseInt(ma1 / ma2 + "") == ans) {
+                    mathright(mathdiff * 5)
+                } else {
+                    mathwrong(ma1, ma2, "÷")
+                }
+                break
+        }
+    }
+})
 player.onChat(".randpaint", function (t) {
     posx = player.position().getValue(Axis.X)
     posy = player.position().getValue(Axis.Y)
@@ -80,15 +226,6 @@ player.onChat(".dome", function (t) {
         ShapeOperation.Hollow
     )
 })
-player.onChat(".qiulin", function (r, l) {
-    if (r == 0 || l == 0) {
-        player.tell(mobs.target(TargetSelectorKind.LocalPlayer), "§c用法： .qiulin <半径> <高度>")
-    }
-    x = player.position().getValue(Axis.X)
-    y = player.position().getValue(Axis.Y)
-    z = player.position().getValue(Axis.Z)
-    custom.qiuling(x, y, z, r, l)
-})
 player.onChat(".cindercone", function (width, height) {
     for (let index = 0; index <= height; index++) {
         blocks.fill(
@@ -112,20 +249,6 @@ player.onChat(".attack", function () {
         }
 
     })
-})
-player.onChat(".killaura", function (radius) {
-    if (radius == 0) {
-        player.tell(mobs.target(TargetSelectorKind.LocalPlayer), "§c用法： .killaura <半径>")
-    } else {
-        loops.forever(function () {
-            if (stop == 1) {
-                stop = 0
-                return
-            }
-
-            player.execute("kill @a[name!=" + player.name() + ",r=" + radius + "]")
-        })
-    }
 })
 player.onChat(".stop", function () {
     stop = 1
