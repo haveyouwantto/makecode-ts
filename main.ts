@@ -197,6 +197,30 @@ player.onChat(".math", function (ans: number) {
         }
     }
 })
+player.onChat(".qiuling", function (r, l) {
+    if (r == 0 || l == 0) {
+        player.tell(mobs.target(TargetSelectorKind.LocalPlayer), "§c用法： .qiulin <半径> <高度>")
+    } else {
+        x = player.position().getValue(Axis.X)
+        y = player.position().getValue(Axis.Y)
+        z = player.position().getValue(Axis.Z)
+        player.say("§d正在生成半径"+r+"、高度"+l+"的丘陵")
+        custom.qiuling(x, y, z, r, l)
+    }
+})
+player.onChat(".killaura", function (radius) {
+    if (radius == 0) {
+        player.tell(mobs.target(TargetSelectorKind.LocalPlayer), "§c用法： .killaura <半径>")
+    } else {
+        loops.forever(function () {
+            if (stop == 1) {
+                stop = 0
+                return
+            }
+            player.execute("kill @a[name!=" + player.name() + ",r=" + radius + "]")
+        })
+    }
+})
 player.onChat(".randpaint", function (t) {
     posx = player.position().getValue(Axis.X)
     posy = player.position().getValue(Axis.Y)
