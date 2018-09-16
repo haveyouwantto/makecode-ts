@@ -198,6 +198,56 @@ namespace custom {
         player.execute("summon ender_crystal "+x+" "+y+" "+z)
         mobs.spawn(mobs.projectile(ProjectileMob.LightningBolt), positions.createWorld(x,y,z))
     }
+    //% block
+    export function parkour(plength:number):void {
+        let xpos = player.position().getValue(Axis.X)
+        let ypos = player.position().getValue(Axis.Y)
+        let zpos = player.position().getValue(Axis.Z)
+        for (let i = 0; i < plength; i++) {
+            let r = Math.randomRange(0, 10000)
+            let xa = 1
+            let ya = 0
+            let za = 1
+            while (r > 0 && xa < 3 && ya < 1 && za < 3 && xa > 0 && ya > -4 && za > 0) {
+                let s = Math.randomRange(-1, 1)
+                let b = Math.randomRange(0, 2)
+                r = r - b
+                switch (b) {
+                    case 0:
+                        xa = xa + s
+                        break
+                    case 1:
+                        ya = ya + s
+                        break
+                    case 2:
+                        za = za + s
+                        break
+
+                }
+            }
+            x = x + xa
+            y = y + ya
+            z = z + za
+            blocks.place(blocks.block(Block.DiamondBlock), positions.createWorld(xpos + x, ypos + y, zpos + z))
+            if (i % 20 == 0) {
+                blocks.place(blocks.block(Block.RedstoneBlock), positions.createWorld(xpos + x, ypos + y, zpos + z))
+            }
+        }
+    }
+    //% block
+    export function skygrid(x:number,y:number,z:number):void {
+        let xpos = player.position().getValue(Axis.X)
+        let ypos = player.position().getValue(Axis.Y)
+        let zpos = player.position().getValue(Axis.Z)
+        for (let i = 0; i < x; i++) {
+            for (let j = 0; j < z; j++) {
+
+                for (let k = 0; k < z; k++) {
+                    blocks.place(blocks.block(Block.DiamondBlock), positions.createWorld(xpos + i * 4, ypos + j * 4, zpos + k * 4))
+                }
+            }
+        }
+    }
     function setlongblock(x: number, y: number, z: number, l: number) {
         for (let i = 0; i <= l; i++) {
             if (i > 3) settile(x, y + l - i, z, 1, 0)
