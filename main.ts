@@ -88,53 +88,56 @@ player.onChat(".break", function () {
     loops.pause(5000)
     breaks == false
 })
-player.onChat(".randshoot", function () {
-    let u = 0
-    let v1 = 5
-    let v2 = 0.5
-    let v3 = 0.00001
-    let v4 = 0.1
-    let m = 0
-    let n = 0
-    let x = 0
-    let y = 0
-    let z = 0
-    let i = 0
-    let t = false
-    loops.forever(function () {
-        u++;
+player.onChat(".randshoot", function (count: number) {
+    for (let i = 0; i < count; i++) {
         if (breaks == true) { return; }
-        if (u == 5) {
-            u = 0;
-            m = ran() * PI() * 2; n = -ran() * PI() / 4 - PI() / 4
-            x = custom.getPlayerX() + 2 * v1 * ran() - v1
-            y = custom.getPlayerY() + 2 * v2 * ran() - v1 + 20
-            z = custom.getPlayerZ() + 2 * v1 * ran() - v1
-            i = 0
-            t = false
-            while (i < 300 && t == false) {
-                i++
-                let X1 = v4 * i * cos(n) * sin(m) + x
-                let Y1 = v4 * i * sin(n) + y
-                let Z1 = v4 * i * cos(n) * cos(m) + z
-                let X = floor(X1)
-                let Y = floor(Y1)
-                let Z = floor(Z1)
+        let v1 = 5
+        let v2 = 0.5
+        let v3 = 0.00001
+        let v4 = 0.1
+        let m = 0
+        let n = 0
+        let x = 0
+        let y = 0
+        let z = 0
+        let i = 0
+        let t = false
+        m = ran() * PI() * 2; n = -ran() * PI() / 4 - PI() / 4
+        x = custom.getPlayerX() + 2 * v1 * ran() - v1
+        y = custom.getPlayerY() + 2 * v2 * ran() - v1 + 20
+        z = custom.getPlayerZ() + 2 * v1 * ran() - v1
+        i = 0
+        t = false
+        while (i < 300 && t == false) {
+            i++
+            let X1 = v4 * i * cos(n) * sin(m) + x
+            let Y1 = v4 * i * sin(n) + y
+            let Z1 = v4 * i * cos(n) * cos(m) + z
+            let X = floor(X1)
+            let Y = floor(Y1)
+            let Z = floor(Z1)
 
-                for (let d = 0; d < 1; d++) {
-                    let xs = X1 + 2 * ran() * v3 - v3
-                    let ys = Y1 + 2 * ran() * v3 - v3
-                    let zs = Z1 + 2 * ran() * v3 - v3
-                    loops.runInBackground(function () {
-                        loops.pause(pausetime)
+            for (let d = 0; d < 1; d++) {
+                let xs = X1 + 2 * ran() * v3 - v3
+                let ys = Y1 + 2 * ran() * v3 - v3
+                let zs = Z1 + 2 * ran() * v3 - v3
+                loops.runInBackground(function () {
+                    loops.pause(100)
 
-                        player.execute("summon evocation_fang " + xs + " " + ys + " " + zs)
-                    })
-                }
+                    player.execute("summon evocation_fang " + xs + " " + ys + " " + zs)
+                })
+
+                loops.runInBackground(function () {
+                    if (!blocks.testForBlock(0, positions.createWorld(X, Y, Z))) {
+
+                        mobs.spawn(mobs.projectile(ProjectileMob.LightningBolt), positions.createWorld(X, Y, Z))
+                    }
+                    loops.pause(100)
+                })
             }
-        }
 
-    })
+        }
+    }
 })
 
 function ran() { return Math.random() }
@@ -330,11 +333,11 @@ player.onChat(".attack", function () {
     loops.forever(function () {
         if (breaks == true) { return; }
         for (let j = 1; j < 6; j++) {
-    
 
 
-                agent.teleportToPlayer()
-                agent.attack(directions[j])
+
+            agent.teleportToPlayer()
+            agent.attack(directions[j])
         }
 
     })
