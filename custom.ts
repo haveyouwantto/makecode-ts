@@ -29,36 +29,27 @@ namespace custom {
         palette = [blocks.block(Block.RedConcrete), blocks.block(Block.RedTerracotta), blocks.block(Block.OrangeTerracotta), blocks.block(Block.OrangeConcrete), blocks.block(Block.YellowTerracotta), blocks.block(Block.YellowConcrete), blocks.block(Block.LimeTerracotta), blocks.block(Block.LimeConcrete), blocks.block(Block.GreenTerracotta), blocks.block(Block.GreenConcrete), blocks.block(Block.CyanTerracotta), blocks.block(Block.LightBlueTerracotta), blocks.block(Block.LightBlueConcrete), blocks.block(Block.CyanConcrete), blocks.block(Block.BlueConcrete), blocks.block(Block.BlueTerracotta), blocks.block(Block.PurpleTerracotta), blocks.block(Block.PurpleConcrete), blocks.block(Block.MagentaConcrete), blocks.block(Block.MagentaTerracotta), blocks.block(Block.PinkTerracotta), blocks.block(Block.PinkConcrete), blocks.block(Block.WhiteConcrete), blocks.block(Block.WhiteTerracotta), blocks.block(Block.LightGrayConcrete), blocks.block(Block.GrayConcrete), blocks.block(Block.LightGrayTerracotta), blocks.block(Block.BrownConcrete), blocks.block(Block.BrownTerracotta), blocks.block(Block.GrayTerracotta), blocks.block(Block.BlackTerracotta)]
         sizex = 16
         sizey = 16
-        maxiter = 1000
-        posx = player.position().getValue(Axis.X)
-        posy = player.position().getValue(Axis.Y)
-        posz = player.position().getValue(Axis.Z)
-        xa = -2 / magn + xm
-        ya = -2 / magn + ym
+        let xa = -2 / magn + xm
+        let ya = -2 / magn + ym
+        let maxiter = 1000
+        let posx = player.position().getValue(Axis.X)
+        let posy = player.position().getValue(Axis.Y)
+        let posz = player.position().getValue(Axis.Z)
         while (ya < 2 / magn + ym) {
-            c = x * x + y * y
-            I = 1
-            while (c < 4 && I < maxiter) {
-                c = x * x + y * y
-                xtemp = x * x - y * y
-                y = 2 * x * y + ya
-                x = xtemp + xa
-                I = I + 1
-            }
-            if (I != maxiter) {
-                blocks.place(palette[I % 31], positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
-            } else {
-                blocks.place(blocks.block(Block.BlackConcrete), positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
-            }
-            c = 0
-            I = 0
             xa = xa + 1 / sizex / magn
             if (xa >= 2 / magn + xm) {
                 xa = -2 / magn + xm
                 ya = ya + 1 / sizey / magn
             }
-            x = xa
-            y = ya
+            loops.runInBackground(function () {
+                let I = custom.getMandel(xa, ya, maxiter)
+                if (I != maxiter) {
+                    blocks.place(palette[I % 31], positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
+                } else {
+                    blocks.place(blocks.block(Block.BlackConcrete), positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
+                }
+            })
+            loops.pause(pausetime)
         }
     }
     /**
@@ -70,6 +61,35 @@ namespace custom {
     //% block
     export function mandelbrot3d(xm: number, ym: number, magn: number): void {
         palette = [blocks.block(Block.RedConcrete), blocks.block(Block.RedTerracotta), blocks.block(Block.OrangeTerracotta), blocks.block(Block.OrangeConcrete), blocks.block(Block.YellowTerracotta), blocks.block(Block.YellowConcrete), blocks.block(Block.LimeTerracotta), blocks.block(Block.LimeConcrete), blocks.block(Block.GreenTerracotta), blocks.block(Block.GreenConcrete), blocks.block(Block.CyanTerracotta), blocks.block(Block.LightBlueTerracotta), blocks.block(Block.LightBlueConcrete), blocks.block(Block.CyanConcrete), blocks.block(Block.BlueConcrete), blocks.block(Block.BlueTerracotta), blocks.block(Block.PurpleTerracotta), blocks.block(Block.PurpleConcrete), blocks.block(Block.MagentaConcrete), blocks.block(Block.MagentaTerracotta), blocks.block(Block.PinkTerracotta), blocks.block(Block.PinkConcrete), blocks.block(Block.WhiteConcrete), blocks.block(Block.WhiteTerracotta), blocks.block(Block.LightGrayConcrete), blocks.block(Block.GrayConcrete), blocks.block(Block.LightGrayTerracotta), blocks.block(Block.BrownConcrete), blocks.block(Block.BrownTerracotta), blocks.block(Block.GrayTerracotta), blocks.block(Block.BlackTerracotta)]
+        sizex = 16
+        sizey = 16
+        let xa = -2 / magn + xm
+        let ya = -2 / magn + ym
+        let maxiter = 1000
+        let posx = player.position().getValue(Axis.X)
+        let posy = player.position().getValue(Axis.Y)
+        let posz = player.position().getValue(Axis.Z)
+        while (ya < 2 / magn + ym) {
+            xa = xa + 1 / sizex / magn
+            if (xa >= 2 / magn + xm) {
+                xa = -2 / magn + xm
+                ya = ya + 1 / sizey / magn
+            }
+            loops.runInBackground(function () {
+                let I = custom.getMandel(xa, ya, maxiter)
+                if (I != maxiter) {
+                    if (I + posy > 255) {
+                        blocks.fill(palette[I % 31], positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, 255, posz + 1 + (ya + 2 / magn - ym) * sizey * magn), positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
+                    } else {
+                        blocks.fill(palette[I % 31], positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy + I, posz + 1 + (ya + 2 / magn - ym) * sizey * magn), positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
+                    }
+                } else {
+                    blocks.place(blocks.block(Block.BlackConcrete), positions.createWorld(posx + 1 + (xa + 2 / magn - xm) * sizex * magn, posy, posz + 1 + (ya + 2 / magn - ym) * sizey * magn))
+                }
+            })
+            loops.pause(pausetime)
+        }
+        /*palette = [blocks.block(Block.RedConcrete), blocks.block(Block.RedTerracotta), blocks.block(Block.OrangeTerracotta), blocks.block(Block.OrangeConcrete), blocks.block(Block.YellowTerracotta), blocks.block(Block.YellowConcrete), blocks.block(Block.LimeTerracotta), blocks.block(Block.LimeConcrete), blocks.block(Block.GreenTerracotta), blocks.block(Block.GreenConcrete), blocks.block(Block.CyanTerracotta), blocks.block(Block.LightBlueTerracotta), blocks.block(Block.LightBlueConcrete), blocks.block(Block.CyanConcrete), blocks.block(Block.BlueConcrete), blocks.block(Block.BlueTerracotta), blocks.block(Block.PurpleTerracotta), blocks.block(Block.PurpleConcrete), blocks.block(Block.MagentaConcrete), blocks.block(Block.MagentaTerracotta), blocks.block(Block.PinkTerracotta), blocks.block(Block.PinkConcrete), blocks.block(Block.WhiteConcrete), blocks.block(Block.WhiteTerracotta), blocks.block(Block.LightGrayConcrete), blocks.block(Block.GrayConcrete), blocks.block(Block.LightGrayTerracotta), blocks.block(Block.BrownConcrete), blocks.block(Block.BrownTerracotta), blocks.block(Block.GrayTerracotta), blocks.block(Block.BlackTerracotta)]
         sizex = 16
         sizey = 16
         maxiter = 1000
@@ -107,6 +127,7 @@ namespace custom {
             x = xa
             y = ya
         }
+        */
     }
 
     /**
@@ -165,7 +186,12 @@ namespace custom {
         for (let m = -r; m < r; m++) {
             for (let n = -r; n < r; n++) {
                 let ls = (Math.cos(pi * m / r) * Math.cos(pi * n / r)) * l - (Math.sin(pi * m * a / r + b) * Math.cos(pi * n * a / r + c)) * l * 0.25 + (Math.cos(pi * m * a * 2 / r + b * d) + Math.sin(pi * n * a * 2 / r + c * d)) * l * 0.2 - (Math.sin(pi * m * a * 3 / r + b * d * 2) * Math.sin(pi * n * a * 3 / r + c * d * 2)) * l * 0.15
-                if (ls > 0) setlongblock(x + m, y, z + n, ls)
+                if (ls > 0) {
+loops.runInBackground(function () {
+    setlongblock(x + m, y, z + n, ls)
+})
+                    loops.pause(pausetime)
+                    }
             }
         }
     }
@@ -195,11 +221,11 @@ namespace custom {
      */
     //% block
     export function explode(x: number, y: number, z: number): void {
-        player.execute("summon ender_crystal "+x+" "+y+" "+z)
-        mobs.spawn(mobs.projectile(ProjectileMob.LightningBolt), positions.createWorld(x,y,z))
+        player.execute("summon ender_crystal " + x + " " + y + " " + z)
+        mobs.spawn(mobs.projectile(ProjectileMob.LightningBolt), positions.createWorld(x, y, z))
     }
     //% block
-    export function parkour(plength:number):void {
+    export function parkour(plength: number): void {
         let xpos = player.position().getValue(Axis.X)
         let ypos = player.position().getValue(Axis.Y)
         let zpos = player.position().getValue(Axis.Z)
@@ -235,7 +261,7 @@ namespace custom {
         }
     }
     //% block
-    export function skygrid(x:number,y:number,z:number):void {
+    export function skygrid(x: number, y: number, z: number): void {
         let xpos = player.position().getValue(Axis.X)
         let ypos = player.position().getValue(Axis.Y)
         let zpos = player.position().getValue(Axis.Z)
@@ -257,6 +283,20 @@ namespace custom {
     }
     function settile(x: number, y: number, z: number, i: number, b: number) {
         blocks.place(blocks.blockWithData(i, b), positions.createWorld(x, y, z))
+    }
+    export function getMandel(xa: number, ya: number, maxiter: number) {
+        let x = xa
+        let y = ya
+        let c = x * x + y * y
+        let I = 1
+        while (c < 4 && I < maxiter) {
+            c = x * x + y * y
+            xtemp = x * x - y * y
+            y = 2 * x * y + ya
+            x = xtemp + xa
+            I = I + 1
+        }
+        return I
     }
 
 }

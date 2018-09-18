@@ -47,6 +47,15 @@ let ma2 = 0
 let mode = ""
 let directions = [SixDirection.Forward, SixDirection.Back, SixDirection.Left, SixDirection.Right, SixDirection.Up]
 let mathdiffs = ["简单", "中等", "困难", "宇宙超级霹雳无敌难度模式"]
+let breaks = false
+
+//设置区
+let pausetime = 50//设置命令的执行速度,越小越吃性能（推荐50）
+let mandelx = -1.542289//Mandelbrot集的X坐标
+let mandely = 0//Mandelbrot集的Y坐标
+let mandelmagn = 9759.153842325255//Mandelbrot集的放大倍数
+//以上为设置区
+
 function mathright(exp: number) {
     if (mathdiff == 4) {
         exp = exp * exp
@@ -74,6 +83,66 @@ function mathwrong(ma1: number, ma2: number, mode: string) {
     }
     player.say("§c错误答案！ 正确答案为§6§l" + ans)
 }
+player.onChat(".break", function () {
+    breaks == true
+    loops.pause(5000)
+    breaks == false
+})
+player.onChat(".randshoot", function () {
+    let u = 0
+    let v1 = 5
+    let v2 = 0.5
+    let v3 = 0.00001
+    let v4 = 0.1
+    let m = 0
+    let n = 0
+    let x = 0
+    let y = 0
+    let z = 0
+    let i = 0
+    let t = false
+    loops.forever(function () {
+        u++;
+        if (breaks == true) { return; }
+        if (u == 5) {
+            u = 0;
+            m = ran() * PI() * 2; n = -ran() * PI() / 4 - PI() / 4
+            x = custom.getPlayerX() + 2 * v1 * ran() - v1
+            y = custom.getPlayerY() + 2 * v2 * ran() - v1 + 20
+            z = custom.getPlayerZ() + 2 * v1 * ran() - v1
+            i = 0
+            t = false
+            while (i < 300 && t == false) {
+                i++
+                let X1 = v4 * i * cos(n) * sin(m) + x
+                let Y1 = v4 * i * sin(n) + y
+                let Z1 = v4 * i * cos(n) * cos(m) + z
+                let X = floor(X1)
+                let Y = floor(Y1)
+                let Z = floor(Z1)
+
+                for (let d = 0; d < 1; d++) {
+                    let xs = X1 + 2 * ran() * v3 - v3
+                    let ys = Y1 + 2 * ran() * v3 - v3
+                    let zs = Z1 + 2 * ran() * v3 - v3
+                    loops.runInBackground(function () {
+                        loops.pause(pausetime)
+
+                        player.execute("summon evocation_fang " + xs + " " + ys + " " + zs)
+                    })
+                }
+            }
+        }
+
+    })
+})
+
+function ran() { return Math.random() }
+function PI() { return 3.1415926535897932 }
+function sin(a: number) { return Math.sin(a) }
+function cos(a: number) { return Math.cos(a) }
+function floor(a: number) { return Math.floor(a) }
+
 player.onChat(".mathdiff", function (diff: number) {
     if (diff < 1) {
         player.say("§c你输入的数字(" + diff + ")太小了，它至少要为1")
@@ -204,7 +273,7 @@ player.onChat(".qiuling", function (r, l) {
         x = player.position().getValue(Axis.X)
         y = player.position().getValue(Axis.Y)
         z = player.position().getValue(Axis.Z)
-        player.say("§d正在生成半径"+r+"、高度"+l+"的丘陵")
+        player.say("§d正在生成半径" + r + "、高度" + l + "的丘陵")
         custom.qiuling(x, y, z, r, l)
     }
 })
@@ -213,10 +282,7 @@ player.onChat(".killaura", function (radius) {
         player.tell(mobs.target(TargetSelectorKind.LocalPlayer), "§c用法： .killaura <半径>")
     } else {
         loops.forever(function () {
-            if (stop == 1) {
-                stop = 0
-                return
-            }
+            if (breaks == true) { return; }
             player.execute("kill @a[name!=" + player.name() + ",r=" + radius + "]")
         })
     }
@@ -262,17 +328,17 @@ player.onChat(".cindercone", function (width, height) {
 })
 player.onChat(".attack", function () {
     loops.forever(function () {
-        if (stop == 1) {
-            stop = 0
-            return
-        }
-
+        if (breaks == true) { return; }
         for (let j = 1; j < 6; j++) {
-            agent.teleportToPlayer()
-            agent.attack(directions[j])
+    
+
+
+                agent.teleportToPlayer()
+                agent.attack(directions[j])
         }
 
     })
+
 })
 player.onChat(".stop", function () {
     stop = 1
@@ -366,7 +432,10 @@ player.onTravelled(TravelMethod.Walk, function () {
     }
 })
 player.onChat(".mdb", function () {
-    custom.mandelbrot3d(-1.3, 0.3, 4)
+    custom.mandelbrot(mandelx, mandely, mandelmagn)
+})
+player.onChat(".mdb3d", function () {
+    custom.mandelbrot3d(mandelx, mandely, mandelmagn)
 })
 player.onChat(".set", function (t) {
     switch (t) {
