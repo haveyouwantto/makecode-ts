@@ -2,7 +2,10 @@
 HYWT's Machine
 Microsoft MakeCode JavaScript
 */
-let monsteroverworld = [mobs.monster(MonsterMob.Zombie), mobs.monster(MonsterMob.Creeper)]
+
+
+
+let monsteroverworld = [mobs.monster(MonsterMob.Zombie), mobs.monster(MonsterMob.Creeper), mobs.monster(MonsterMob.Spider)]
 let xtemp = 0
 let I = 0
 let c = 0
@@ -48,14 +51,28 @@ let mode = ""
 let directions = [SixDirection.Forward, SixDirection.Back, SixDirection.Left, SixDirection.Right, SixDirection.Up]
 let mathdiffs = ["简单", "中等", "困难", "宇宙超级霹雳无敌难度模式"]
 let breaks = false
+let blockid1 = 1
+let blockid2 = 1
+let blockid3 = 0
+let data1 = 0
+let data2 = 0
+let data3 = 0
+let xsize = 16
+let ysize = 3
+let zsize = 16
+
+
 
 //设置区
 let pausetime = 50//设置命令的执行速度,越小越吃性能（推荐50）
-let mandelx = -1.542289//Mandelbrot集的X坐标
-let mandely = 0//Mandelbrot集的Y坐标
-let mandelmagn = 9759.153842325255//Mandelbrot集的放大倍数
+let mandelx = -1.999095834626336//Mandelbrot集的X坐标
+let mandely = -0.000012251819137645373//Mandelbrot集的Y坐标
+let mandelmagn = 81865715994.96037//Mandelbrot集的放大倍数
 //以上为设置区
 
+
+
+//函数定义
 function mathright(exp: number) {
     if (mathdiff == 4) {
         exp = exp * exp
@@ -83,6 +100,46 @@ function mathwrong(ma1: number, ma2: number, mode: string) {
     }
     player.say("§c错误答案！ 正确答案为§6§l" + ans)
 }
+
+function ran() { return Math.random() }
+function sin(a: number) { return Math.sin(a) }
+function cos(a: number) { return Math.cos(a) }
+function floor(a: number) { return Math.floor(a) }
+//以上为函数定义
+
+
+
+player.onChat(".mazesize", function (num1: number, num2: number, num3: number) {
+    xsize = num1
+    ysize = num2
+    zsize = num3
+    player.say("§d迷宫参数已更新： { xsize=" + xsize + " , ysize=" + ysize + " , zsize=" + zsize + " , blockid1=" + blockid1 + " , data1=" + data1 + " , blockid2=" + blockid2 + " , data2=" + data2 + " , blockid3=" + blockid3 + " , data3=" + data3 + " }")
+})
+player.onChat(".mazeblockdata", function (num1: number, num2: number, num3: number) {
+    data1 = num1
+    data2 = num2
+    data3 = num3
+    player.say("§d迷宫参数已更新： { xsize=" + xsize + " , ysize=" + ysize + " , zsize=" + zsize + " , blockid1=" + blockid1 + " , data1=" + data1 + " , blockid2=" + blockid2 + " , data2=" + data2 + " , blockid3=" + blockid3 + " , data3=" + data3 + " }")
+})
+player.onChat(".mazeblock", function (num1: number, num2: number, num3: number) {
+    blockid1 = num1
+    blockid2 = num2
+    blockid3 = num3
+    player.say("§d迷宫参数已更新： { xsize=" + xsize + " , ysize=" + ysize + " , zsize=" + zsize + " , blockid1=" + blockid1 + " , data1=" + data1 + " , blockid2=" + blockid2 + " , data2=" + data2 + " , blockid3=" + blockid3 + " , data3=" + data3 + " }")
+})
+player.onChat(".maze", function (conf: number) {
+    if (conf == 0) {
+        player.tell(mobs.target(TargetSelectorKind.LocalPlayer), "§r§d即将生成迷宫, 参数如下：")
+        player.tell(mobs.target(TargetSelectorKind.LocalPlayer), "§r§d{ xsize=" + xsize + " , ysize=" + ysize + " , zsize=" + zsize + " , blockid1=" + blockid1 + " , data1=" + data1 + " , blockid2=" + blockid2 + " , data2=" + data2 + " , blockid3=" + blockid3 + " , data3=" + data3 + " }")
+        player.tell(mobs.target(TargetSelectorKind.LocalPlayer), "§r§c输入 §6.maze 1§c 开始生成")
+    } else if (conf == 1) {
+        player.say("§d正在生成迷宫... { xsize=" + xsize + " , ysize=" + ysize + " , zsize=" + zsize + " , blockid1=" + blockid1 + " , data1=" + data1 + " , blockid2=" + blockid2 + " , data2=" + data2 + " , blockid3=" + blockid3 + " , data3=" + data3 + " }")
+        let x = player.position().getValue(Axis.X)
+        let y = player.position().getValue(Axis.Y)
+        let z = player.position().getValue(Axis.Z)
+        structures.maze(xsize, ysize, zsize, blockid1, data1, blockid2, data2, blockid3, data3)
+    }
+})
 player.onChat(".break", function () {
     breaks == true
     loops.pause(5000)
@@ -102,10 +159,10 @@ player.onChat(".randshoot", function (count: number) {
         let z = 0
         let i = 0
         let t = false
-        m = ran() * PI() * 2; n = -ran() * PI() / 4 - PI() / 4
-        x = custom.getPlayerX() + 2 * v1 * ran() - v1
-        y = custom.getPlayerY() + 2 * v2 * ran() - v1 + 20
-        z = custom.getPlayerZ() + 2 * v1 * ran() - v1
+        m = ran() * cons.PI() * 2; n = -ran() * cons.PI() / 4 - cons.PI() / 4
+        x = posprocess.getPlayerX() + 2 * v1 * ran() - v1
+        y = posprocess.getPlayerY() + 2 * v2 * ran() - v1 + 20
+        z = posprocess.getPlayerZ() + 2 * v1 * ran() - v1
         i = 0
         t = false
         while (i < 300 && t == false) {
@@ -139,12 +196,6 @@ player.onChat(".randshoot", function (count: number) {
         }
     }
 })
-
-function ran() { return Math.random() }
-function PI() { return 3.1415926535897932 }
-function sin(a: number) { return Math.sin(a) }
-function cos(a: number) { return Math.cos(a) }
-function floor(a: number) { return Math.floor(a) }
 
 player.onChat(".mathdiff", function (diff: number) {
     if (diff < 1) {
@@ -273,11 +324,11 @@ player.onChat(".qiuling", function (r, l) {
     if (r == 0 || l == 0) {
         player.tell(mobs.target(TargetSelectorKind.LocalPlayer), "§c用法： .qiulin <半径> <高度>")
     } else {
-        x = player.position().getValue(Axis.X)
-        y = player.position().getValue(Axis.Y)
-        z = player.position().getValue(Axis.Z)
+        let x = player.position().getValue(Axis.X)
+        let y = player.position().getValue(Axis.Y)
+        let z = player.position().getValue(Axis.Z)
         player.say("§d正在生成半径" + r + "、高度" + l + "的丘陵")
-        custom.qiuling(x, y, z, r, l)
+        structures.qiuling(x, y, z, r, l)
     }
 })
 player.onChat(".killaura", function (radius) {
@@ -367,14 +418,14 @@ player.onChat(".axis", function () {
     )
 })
 player.onChat(".draw", function () {
-    posx = player.position().getValue(Axis.X)
-    posy = player.position().getValue(Axis.Y)
-    posz = player.position().getValue(Axis.Z)
-    scale = 10
-    precision = 20
-    x = 0 - scale
+    let posx = player.position().getValue(Axis.X)
+    let posy = player.position().getValue(Axis.Y)
+    let posz = player.position().getValue(Axis.Z)
+    let scale = 10
+    let precision = 20
+    let x = 0 - scale
     while (x < scale) {
-        y = Math.tan(x)
+        let y = Math.tan(x)
         blocks.place(blocks.block(Block.Cobblestone), positions.createWorld(posx + x * precision, posy, posz + y * (-1 * precision)))
         x = x + 1 / precision
     }
@@ -435,10 +486,10 @@ player.onTravelled(TravelMethod.Walk, function () {
     }
 })
 player.onChat(".mdb", function () {
-    custom.mandelbrot(mandelx, mandely, mandelmagn)
+    structures.mandelbrot(mandelx, mandely, mandelmagn)
 })
 player.onChat(".mdb3d", function () {
-    custom.mandelbrot3d(mandelx, mandely, mandelmagn)
+    structures.mandelbrot3d(mandelx, mandely, mandelmagn)
 })
 player.onChat(".set", function (t) {
     switch (t) {
