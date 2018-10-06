@@ -1,3 +1,4 @@
+
 /*
 HYWT's Machine
 Microsoft MakeCode JavaScript
@@ -105,10 +106,76 @@ function ran() { return Math.random() }
 function sin(a: number) { return Math.sin(a) }
 function cos(a: number) { return Math.cos(a) }
 function floor(a: number) { return Math.floor(a) }
+function pillar(x: number, y: number, z: number) {
+    settile(Block.Anvil, x, y, z)
+    loops.pause(1000)
+    settile(Block.RedstoneBlock, x, y, z)
+    settile(Block.PoweredRail, x, y + 1, z)
+    let ys = y
+    let leng = 0
+    while (ys > 0 && blocks.testForBlock(Block.Air, positions.createWorld(x, ys - 1, z)) != false) {
+        ys--
+        leng++
+        settile(Block.PurpurPillar, x, ys, z)
+    }
+    ys--
+    leng++
+    settile(Block.PurpurPillar, x, ys, z)
+    for (let i = ys; i < y - leng / 3; i++) {
+        settilewd(1, 4, x, i, z + 1)
+        settilewd(1, 4, x - 1, i, z)
+        settilewd(1, 4, x, i, z - 1)
+        settilewd(1, 4, x + 1, i, z)
+    }
+    for (let i = ys; i < y - leng / 1.732050807568877; i++) {
+        settile(Block.PurpurPillar, x + 1, i, z + 1)
+        settile(Block.PurpurPillar, x - 1, i, z - 1)
+        settile(Block.PurpurPillar, x - 1, i, z + 1)
+        settile(Block.PurpurPillar, x + 1, i, z - 1)
+    }
+    for (let i = ys; i < y - leng / 1.316074012952492; i++) {
+        settilewd(1, 4, x, i, z + 2)
+        settilewd(1, 4, x - 2, i, z)
+        settilewd(1, 4, x, i, z - 2)
+        settilewd(1, 4, x + 2, i, z)
+    }
+}
+function bridge(x: number, y: number, z: number, t: boolean) {
+    settilewd(1, 4, x, y, z)
+    settile(Block.Rail, x, y + 1, z)
+    if (t == true) {
+        loops.runInBackground(function () {
+            pillar(x, y, z)
+        })
+    }
+}
+function settile(b: Block, x: number, y: number, z: number) {
+    blocks.place(b, positions.createWorld(x, y, z))
+}
+function settilewd(b: Block, d: number, x: number, y: number, z: number) {
+    blocks.place(blocks.blockWithData(b, d), positions.createWorld(x, y, z))
+}
 //以上为函数定义
 
 
 
+player.onChat(".bridge", function (len: number) {
+    let x = posprocess.getPlayerX()
+    let y = posprocess.getPlayerY()
+    let z = posprocess.getPlayerZ()
+    let lens = 0
+    let t = false
+    while (true) {
+        lens++
+        x = x + (Math.randomRange(0, 10) / 20)
+        z = z + (Math.randomRange(0, 10) / 200)
+        if ((x + z) % 10 == 0) {
+            t = true
+        }
+        else { t = false }
+        bridge(x, y, z, t)
+    }
+})
 player.onChat(".mazesize", function (num1: number, num2: number, num3: number) {
     xsize = num1
     ysize = num2
