@@ -1,0 +1,17 @@
+{
+    "format_version": 1,
+    "header": {
+        "description": "Fast Minecart",
+        "name": "Fast Minecart",
+        "uuid": "ee649bcf-2511-4013-9068-6a802b11d756",
+        "version": [0, 0, 1]
+    },
+    "modules": [
+        {
+            "description": "Fast Minecart",
+            "type": "data",
+            "uuid": "fa1190c8-c925-460f-8155-c8e50b753caa",
+            "version": [0, 0, 1]
+        }
+    ]
+}
