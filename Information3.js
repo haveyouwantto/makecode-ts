@@ -424,7 +424,21 @@ function useItem(x, y, z, itemId, blockId) {
   if (itemId == 345) {
     Server.sendChat("§cX: " + x + " §aY: " + y + " §bZ: " + z + " §9维度: " + getDimensionName(Player.getDimension()))
   } else if (itemId == 347) {
-    Server.sendChat("§cX=" + x + " §aY=" + y + " §bZ=" + z + " §9维度: " + getDimensionName(Player.getDimension()))
+    t = Level.getTime()
+    d = parseInt(t / 24000)
+    tickday = t % 24000
+    hour = t / 1000
+    hourday = parseInt((hour + 6) % 24)
+    minute = t / (1000 / 60)
+    minuteday = parseInt(minute % 60)
+    realminute = t / 24000 * 20
+    realhour = realminute / 60
+    realsecond = (realminute * 60) % 60
+    date = new Date()
+    ModPE.showTipMessage(
+      "§d现实时间: " + date.getFullYear() + "-" + padding(date.getMonth() + 1) + "-" + padding(date.getDate()) + " " + padding(date.getHours()) + ":" + padding(date.getMinutes()) + ":" + padding(date.getSeconds()) +
+      "\n§f游戏时间: " + t + " (第" + d + "天 " + padding(hourday) + ":" + padding(minuteday) + ")" +
+      "\n§a游玩计时: " + padding(parseInt(realhour)) + ":" + padding(parseInt(realminute % 60)) + ":" + padding(parseInt(realsecond)))
   }
 }
 
