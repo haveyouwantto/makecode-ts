@@ -6,7 +6,7 @@ var y = (Player.getY() - 1.619999885559082)
 var z = (Player.getZ())
 var tip = 0
 var ctx = com.mojang.minecraftpe.MainActivity.currentMainActivity.get();
-var group = ["关", "系统信息", "世界信息", "玩家信息", "方块信息", "生物群系信息"]
+var group = ["关", "系统信息", "世界信息", "玩家信息", "方块信息", "生物群系信息", "时间信息"]
 group[-1] = "电脑迷专用"
 function newLevel() {
   tip = 0
@@ -252,40 +252,40 @@ function getBiomeDetail(x, z) {
 
 function modTick() {
   //生物群系信息js\nby百度贴吧@Cx翱翔cx
-  t = (Level.getTime())
+  t = Level.getTime()
   d = parseInt(t / 24000)
-  x = (Player.getX())
-  y = (Player.getY() - 1.619999885559082)
-  z = (Player.getZ())
-  dm = (Player.getDimension())
+  x = Player.getX()
+  y = Player.getY() - 1.619999885559082
+  z = Player.getZ()
+  dm = Player.getDimension()
   pe = Player.getEntity()
-  il = Player.getPointedBlockId()
-  dl = Player.getPointedBlockData()
   SHIFT = Entity.isSneaking(pe)
-  if (tip == 6) { tip = 0 }
+  if (tip == 7) {
+    tip = 0
+  }
   if (tip == 1) {
     ModPE.showTipMessage(
       " 游戏版本：" + ModPE.getMinecraftVersion() +
-      " \n玩家 " + Player.getName(Player.getEntity()) + "(" + Player.getEntity() +")"+
-      " \n世界 <" + Level.getWorldName() + "§a§l/§r" + Level.getWorldDir() +"§r>"+
+      " \n玩家 " + Player.getName(pe) + "(" + pe + ")" +
+      " \n世界 <" + Level.getWorldName() + "§a§l/§r" + Level.getWorldDir() + "§r>" +
       " \n§9语言: " + ModPE.getLanguage()
     )
   }
-  if (tip == 2) {
+  else if (tip == 2) {
     ModPE.showTipMessage(
-      " 时间: " + t + "(天数: " + d +")"+
+      " 时间: " + t + "(天数: " + d + ")" +
       " §e下雨: " + Level.getRainLevel() +
       " §c闪电: " + Level.getLightningLevel() +
       " §2亮度: " + Level.getBrightness(x, y + 0.5, z) +
       " \n§0模式: " + Level.getGameMode() +
       " §b难度: " + Level.getDifficulty() +
-      " §f生物群系: " + Level.getBiomeName(x, z) + "(" + Level.getBiome(x, z) +")"+
+      " §f生物群系: " + Level.getBiomeName(x, z) + "(" + Level.getBiome(x, z) + ")" +
       " §a草的颜色: " + Level.getGrassColor(x, z) +
       " \n§e看见天空: " + Level.canSeeSky(x, y, z) +
       " §7脚下方块: " + Level.getTile(x, y - 0.5, z)
     )
   }
-  if (tip == 3) {
+  else if (tip == 3) {
     ModPE.showTipMessage(
       " §1X: " + parseInt(x) +
       " §2Y: " + parseInt(y) +
@@ -295,9 +295,9 @@ function modTick() {
       " §6饥饿: " + Player.getHunger() +
       " \n§7经验: " + Player.getExp() +
       " §8等级: " + Player.getLevel() +
-      " §4血量: " + Entity.getHealth(Player.getEntity()) +
-      " \n§f指向方块: §a((" + Player.getPointedBlockX() + " " + Player.getPointedBlockY() + " " + Player.getPointedBlockZ() + ") ID: " + Player.getPointedBlockId() + " 数据: " + Player.getPointedBlockData() + " 面: " + Player.getPointedBlockSide() +")"+
-      " \n§f手中物品: §5(ID: " + Player.getCarriedItem() + " 数量: " + Player.getCarriedItemCount() + " 数据: " + Player.getCarriedItemData() +")"+
+      " §4血量: " + Entity.getHealth(pe) +
+      " \n§f指向方块: §a((" + Player.getPointedBlockX() + " " + Player.getPointedBlockY() + " " + Player.getPointedBlockZ() + ") ID: " + Player.getPointedBlockId() + " 数据: " + Player.getPointedBlockData() + " 面: " + Player.getPointedBlockSide() + ")" +
+      " \n§f手中物品: §5(ID: " + Player.getCarriedItem() + " 数量: " + Player.getCarriedItemCount() + " 数据: " + Player.getCarriedItemData() + ")" +
       " §6背包格: " + Player.getSelectedSlotId() +
       " §b可以飞行: " + Player.canFly() +
       " 正在飞行: " + Player.isFlying() +
@@ -305,15 +305,17 @@ function modTick() {
       " §8潜行: " + Entity.isSneaking(pe)
     )
   }
-  if (tip == 4) {
+  else if (tip == 4) {
+    il = Player.getPointedBlockId()
+    dl = Player.getPointedBlockData()
     ModPE.showTipMessage(
-      " §f指向方块: §a((" + Player.getPointedBlockX() + " " + Player.getPointedBlockY() + " " + Player.getPointedBlockZ() + ") ID: " + Player.getPointedBlockId() + " 数据: " + Player.getPointedBlockData() + " 面: " + Player.getPointedBlockSide() +")"+
+      " §f指向方块: §a((" + Player.getPointedBlockX() + " " + Player.getPointedBlockY() + " " + Player.getPointedBlockZ() + ") ID: " + Player.getPointedBlockId() + " 数据: " + Player.getPointedBlockData() + " 面: " + Player.getPointedBlockSide() + ")" +
       " §9破坏时间: " + Block.getDestroyTime(il, dl) +
       " §0摩擦系数: " + Block.getFriction(il, dl) +
       " §a渲染ID: " + Block.getRenderType(il)
     )
   }
-  if (tip == -1) {
+  else if (tip == -1) {
     ModPE.showTipMessage(
       " (进阶数据)" +
       " \n§1X: " + x +
@@ -329,7 +331,7 @@ function modTick() {
       " §a俯视角: " + Entity.getPitch(pe)
     )
   }
-  if (tip == 5) {
+  else if (tip == 5) {
     biome = getBiomeDetail(x, z)
     ModPE.showTipMessage(
       " 生物群系ID: §4" + Level.getBiome(Player.getX(), Player.getZ()) +
@@ -338,6 +340,21 @@ function modTick() {
       "\n结构特点: §7" + biome[2] +
       "\n§r可能存在特殊结构: §9" + biome[3]
     );
+  }
+  else if (tip==6){
+    tickday = t % 24000
+    hour = t / 1000
+    hourday = parseInt((hour + 6) % 24)
+    minute = t / (1000 / 60)
+    minuteday = parseInt(minute % 60)
+    realminute = t / 24000 * 20
+    realhour = realminute / 60
+    realsecond = (realminute * 60) % 60
+    date = new Date()
+    ModPE.showTipMessage(
+      "§d现实时间："+date.getFullYear() + "-" + padding(date.getMonth() + 1) + "-" + padding(date.getDate()) + " " + padding(date.getHours()) + ":" + padding(date.getMinutes()) + ":" + padding(date.getSeconds()) + 
+      "\n§f游戏时间：" + t + " (第" + d + "天 " + padding(hourday) + ":" + padding(minuteday) + ")"+
+      "\n§a游玩计时："+ padding(parseInt(realhour)) + ":" + padding(parseInt(realminute % 60)) + ":" + padding(parseInt(realsecond)))
   }
 }
 
