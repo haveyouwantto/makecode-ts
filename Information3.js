@@ -25,10 +25,13 @@ ctx.runOnUiThread(new java.lang.Runnable(
           {
             onClick: function (viewarg) {
               tip++
-              clientMessage("选择了组别： §a" + group[tip])
+              if (tip == 8) {
+                tip = 0
+              }
               if (tip == 4 && SHIFT == true) {
                 tip = -1
               }
+              clientMessage("选择了组别： §a" + group[tip])
             }
           }
         )
@@ -268,9 +271,6 @@ function modTick() {
   dm = Player.getDimension()
   pe = Player.getEntity()
   SHIFT = Entity.isSneaking(pe)
-  if (tip == 7) {
-    tip = 0
-  }
   if (tip == 1) {
     ModPE.showTipMessage(
       " 游戏版本: " + ModPE.getMinecraftVersion() +
