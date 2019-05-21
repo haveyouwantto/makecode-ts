@@ -358,7 +358,9 @@ function modTick() {
   }
 }
 
-
+function useItem(x, y, z, itemId, blockId) {
+  if (itemId == 345) { Server.sendChat("§cX=" + x + " §aY=" + y + " §bZ=" + z + " §9D=" + dim) }
+}
 
 
 
