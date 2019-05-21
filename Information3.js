@@ -58,6 +58,14 @@ function deathHook(murderer, victim) {
   }
 }
 
+function padding(num) {
+  if (num < 10&&num>=0) {
+      return "0" + num
+  } else {
+      return num
+  }
+}
+
 function getBiomeDetail(x, z) {
   var b = null;
   if (Level.getBiome(x, z) == 0) {
