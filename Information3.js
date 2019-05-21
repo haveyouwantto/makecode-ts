@@ -273,9 +273,9 @@ function modTick() {
   }
   if (tip == 1) {
     ModPE.showTipMessage(
-      " 游戏版本：" + ModPE.getMinecraftVersion() +
-      " \n玩家 " + Player.getName(pe) + "(" + pe + ")" +
-      " \n世界 <" + Level.getWorldName() + "§a§l/§r" + Level.getWorldDir() + "§r>" +
+      " 游戏版本: " + ModPE.getMinecraftVersion() +
+      " \n玩家: " + Player.getName(pe) + "(" + pe + ")" +
+      " \n世界: <" + Level.getWorldName() + "§a§l/§r" + Level.getWorldDir() + "§r>" +
       " \n§9语言: " + ModPE.getLanguage()
     )
   }
@@ -360,14 +360,14 @@ function modTick() {
     realsecond = (realminute * 60) % 60
     date = new Date()
     ModPE.showTipMessage(
-      "§d现实时间："+date.getFullYear() + "-" + padding(date.getMonth() + 1) + "-" + padding(date.getDate()) + " " + padding(date.getHours()) + ":" + padding(date.getMinutes()) + ":" + padding(date.getSeconds()) + 
-      "\n§f游戏时间：" + t + " (第" + d + "天 " + padding(hourday) + ":" + padding(minuteday) + ")"+
-      "\n§a游玩计时："+ padding(parseInt(realhour)) + ":" + padding(parseInt(realminute % 60)) + ":" + padding(parseInt(realsecond)))
+      "§d现实时间: "+date.getFullYear() + "-" + padding(date.getMonth() + 1) + "-" + padding(date.getDate()) + " " + padding(date.getHours()) + ":" + padding(date.getMinutes()) + ":" + padding(date.getSeconds()) + 
+      "\n§f游戏时间: " + t + " (第" + d + "天 " + padding(hourday) + ":" + padding(minuteday) + ")"+
+      "\n§a游玩计时: "+ padding(parseInt(realhour)) + ":" + padding(parseInt(realminute % 60)) + ":" + padding(parseInt(realsecond)))
   }
 }
 
 function useItem(x, y, z, itemId, blockId) {
-  if (itemId == 345) { Server.sendChat("§cX=" + x + " §aY=" + y + " §bZ=" + z + " §9D=" + dim) }
+  if (itemId == 345) { Server.sendChat("§cX=" + x + " §aY=" + y + " §bZ=" + z + " §9D=" + Player.getDimension()) }
 }
 
 
