@@ -264,11 +264,11 @@ function modTick() {
   SHIFT = Entity.isSneaking(pe)
   if (tip == 6) { tip = 0 }
   if (tip == 1) {
-    ModPE.showTipMessage(/*
+    ModPE.showTipMessage(
       " 游戏版本：" + ModPE.getMinecraftVersion() +
       " \n玩家 " + Player.getName(Player.getEntity()) + "(" + Player.getEntity() +")"+
       " \n世界 <" + Level.getWorldName() + "§a§l/§r" + Level.getWorldDir() +"§r>"+
-      " \n§9语言: " + ModPE.getLanguage()*/
+      " \n§9语言: " + ModPE.getLanguage()
     )
   }
   if (tip == 2) {
