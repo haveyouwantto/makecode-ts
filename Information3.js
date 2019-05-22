@@ -32,7 +32,7 @@ ctx.runOnUiThread(new java.lang.Runnable(
               if (tip == 4 && SHIFT == true) {
                 tip = -1
               }
-              clientMessage("选择了组别： §a" + group[tip])
+              //clientMessage("选择了组别： §a" + group[tip])
             }
           }
         )
@@ -435,7 +435,7 @@ function useItem(x, y, z, itemId, blockId) {
     realhour = realminute / 60
     realsecond = (realminute * 60) % 60
     date = new Date()
-    ModPE.showTipMessage(
+    Server.sendChat(
       "§d现实时间: " + date.getFullYear() + "-" + padding(date.getMonth() + 1) + "-" + padding(date.getDate()) + " " + padding(date.getHours()) + ":" + padding(date.getMinutes()) + ":" + padding(date.getSeconds()) +
       "\n§f游戏时间: " + t + " (第" + d + "天 " + padding(hourday) + ":" + padding(minuteday) + ")" +
       "\n§a游玩计时: " + padding(parseInt(realhour)) + ":" + padding(parseInt(realminute % 60)) + ":" + padding(parseInt(realsecond)))
